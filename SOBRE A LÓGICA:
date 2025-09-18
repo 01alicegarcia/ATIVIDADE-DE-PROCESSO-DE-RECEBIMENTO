@@ -1,0 +1,19 @@
+A Lógica do Sistema de Rastreamento
+A solução utiliza o padrão de design Estado para modelar o processo de rastreamento de pacotes. A lógica é baseada na ideia de que um objeto (o pacote) muda seu comportamento e transições de acordo com seu estado interno.
+
+1. Estados (EstadoPacote)
+Os estados são objetos que representam cada fase da jornada do pacote. Cada estado tem um nome (por exemplo, "Pacote está em transporte") e uma referência para o próximo estado na sequência. Isso cria uma cadeia de responsabilidade, onde cada estado sabe para onde o fluxo de execução deve seguir.
+
+A sequência é pré-definida: recebido aponta para emTransporte, que aponta para saiuParaEntrega, e assim por diante. O último estado, entregue, não aponta para nada (null), marcando o fim do processo.
+
+2. Processo (Pacote)
+A classe Pacote representa o objeto que está sendo rastreado. Ela possui uma propriedade estadoAtual que sempre aponta para o objeto de estado em que o pacote se encontra no momento.
+
+O método avancar() é o motor do processo. Sua única responsabilidade é delegar a ação ao estado atual e atualizar o estado do pacote para o próximo na cadeia.
+
+3. Recursividade
+A recursividade é utilizada para orquestrar a transição de um estado para o próximo. Ao chamar o método avancar(), a função se executa, muda o estado do pacote e, em seguida, chama a si mesma novamente.
+
+Essa chamada recursiva continua até que o pacote chegue ao estado final (entregue), onde a referência para o próximo estado é null. A ausência de um próximo estado serve como a condição de parada da recursão, encerrando o processo de forma automática e elegante, sem a necessidade de loops ou instruções condicionais (if).
+
+A combinação desses três conceitos - Estado, Processo e Recursividade - permite que o sistema de rastreamento funcione de maneira fluida e extensível. O comportamento do sistema é determinado pelo estado atual do objeto, e não por uma série de verificações condicionais complexas.
